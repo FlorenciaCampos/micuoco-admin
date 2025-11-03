@@ -17,6 +17,12 @@ export default function Login(){
     });
   };
 
+    const handleSubmit = (e) => {
+    e.preventDefault(); // evita que la página se recargue
+    console.log("Formulario enviado:", form);
+  };
+  
+
 
 
     return(
@@ -24,7 +30,7 @@ export default function Login(){
             <div className="login-container">
                 <h1>Iniciar sesion</h1>
 
-                <form >
+                <form  onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="email">Email</label>
                         <input id="email" name="email" 
@@ -43,6 +49,8 @@ export default function Login(){
                     <button type="submit">Ingresar</button>
 
                 </form>
+               
+
             </div>
         </main>
 
