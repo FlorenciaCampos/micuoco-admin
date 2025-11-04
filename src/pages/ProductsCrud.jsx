@@ -1,18 +1,37 @@
+import { useEffect } from "react";
+import useProduct from "../hooks/useProduct.jsx";
+
 export default function ProductsCrud() {
-    return (
-      <main style={{ textAlign: "center", marginTop: "60px" }}>
-        <h1>Gestión de productos</h1>
-        <p>Acá podrás crear, editar y eliminar productos de Mi Cuoco 🧁</p>
-  
-        <section style={{ marginTop: "30px" }}>
-          <button style={{ padding: "8px 16px" }}>+ Agregar producto</button>
-  
-          <div style={{ marginTop: "40px" }}>
-            <h3>Listado de productos</h3>
-            <p>(Aquí se mostrarán los productos del backend)</p>
-          </div>
-        </section>
-      </main>
-    );
-  }
+  const { products, loading, fetchProducts } = useProduct();
+
+  // Llamamos a la API cuando se monta el componente
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  return (
+    <main>
+      <h1>Gestión de productos</h1>
+
+      {loading ? (
+        <p>Cargando productos...</p>
+      ) : (
+        <>
+          {products.length === 0 ? (
+            <p>No hay productos cargados</p>
+          ) : (
+            <ul>
+              {products.map((p) => (
+                <li key={p._id || p.id}>
+                  {p.nombre || p.name} — ${p.precio}
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
+      )}
+    </main>
+  );
+}
+
   

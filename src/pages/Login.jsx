@@ -1,5 +1,7 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Login({onLoginSuccess }){
 
@@ -8,6 +10,9 @@ export default function Login({onLoginSuccess }){
     email: "",
     password: "",
   });
+
+  const navigate = useNavigate();
+
 
   // 2️⃣ Función para actualizar los valores del form
   const handleChange = (e) => {
@@ -35,17 +40,16 @@ export default function Login({onLoginSuccess }){
         throw new Error(data.message || "Error en el login");
       }
   
-      console.log("✅ Login exitoso:", data);
-  
-      // 👉 Guardamos el token en sessionStorage
       sessionStorage.setItem("token", data.token);
   
-      // 👉 Avisamos al componente padre que el login fue exitoso
       if (onLoginSuccess) {
         onLoginSuccess(data.token);
       }
+  
+      // 👇 Redirige a la página de gestión de productos
+      navigate("/productos");
     } catch (error) {
-      console.error("❌ Error al iniciar sesión:", error.message);
+      console.error("Error al iniciar sesión:", error.message);
     }
   };
   
