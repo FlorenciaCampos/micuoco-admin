@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 
-export default function Login(){
+export default function Login({onLoginSuccess }){
 
      // 1️⃣ Estado inicial del formulario
   const [form, setForm] = useState({
@@ -17,9 +17,36 @@ export default function Login(){
     });
   };
 
-    const handleSubmit = (e) => {
-    e.preventDefault(); // evita que la página se recargue
-    console.log("Formulario enviado:", form);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const response = await fetch("http://localhost:3000/api/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+      });
+  
+      const data = await response.json();
+  
+      if (!response.ok) {
+        throw new Error(data.message || "Error en el login");
+      }
+  
+      console.log("✅ Login exitoso:", data);
+  
+      // 👉 Guardamos el token en sessionStorage
+      sessionStorage.setItem("token", data.token);
+  
+      // 👉 Avisamos al componente padre que el login fue exitoso
+      if (onLoginSuccess) {
+        onLoginSuccess(data.token);
+      }
+    } catch (error) {
+      console.error("❌ Error al iniciar sesión:", error.message);
+    }
   };
   
 
