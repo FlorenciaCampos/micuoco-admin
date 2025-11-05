@@ -57,6 +57,17 @@ export default function ProductForm({ onSubmit, initialData }) {
         />
       </div>
 
+      <div>
+        <label>Imagen (URL)</label>
+        <input
+          name="image"
+          type="text"
+          value={form.image}
+          onChange={handleChange}
+          placeholder="https://ejemplo.com/imagen.jpg"
+        />
+      </div>
+
       <button type="submit">
         {isEditing ? "Guardar cambios" : "Crear producto"}
       </button>

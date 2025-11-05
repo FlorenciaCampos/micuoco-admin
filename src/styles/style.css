@@ -1,0 +1,43 @@
+/* 🎀 Estilos generales */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: '
+}
+
+/* =============================
+   ADMIN PANEL (Mi Cuoco)
+============================== */
+
+.admin-wrapper {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+  
+  /* Titulos del panel */
+  .admin-wrapper h1,
+  .admin-wrapper h3 {
+    font-family: 'Times New Roman', serif;
+    color: #bc4b51; /* tono rojizo similar a tu paleta */
+    margin-bottom: 20px;
+  }
+  
+  /* Botón general */
+  .admin-btn {
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: 1px solid #bc4b51;
+    background-color: white;
+    color: #bc4b51;
+    cursor: pointer;
+    font-family: 'Times New Roman';
+    transition: 0.3s ease;
+  }
+  
+  .admin-btn:hover {
+    background-color: #bc4b51;
+    color: white;
+  }
+  

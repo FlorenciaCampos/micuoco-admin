@@ -1,51 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import useProduct from "../hooks/useProduct";
-import ProductForm from "../components/ProductsForm";
 import { Link } from "react-router-dom";
-
 
 export default function ProductsCrud() {
   const {
     products,
     loading,
     fetchProducts,
-    createProduct,
-    updateProduct,
     deleteProduct,
   } = useProduct();
-
-  const [editingProduct, setEditingProduct] = useState(null);
 
   useEffect(() => {
     fetchProducts();
   }, []);
 
   return (
-    <main>
+    <main className="admin-wrapper">
       <h1>Gestión de productos</h1>
-     
-<Link to="/productos/nuevo">
-  <button onClick={() => setEditingProduct(null)}>➕ Agregar producto</button>
-</Link>
 
-
-     
-      <ProductForm
-        initialData={editingProduct}
-        onSubmit={(data) => {
-          if (editingProduct) {
-            updateProduct(editingProduct._id, data); 
-          } else {
-            createProduct(data); 
-          }
-
-          setEditingProduct(null); 
-        }}
-      />
+      {/* ✅ Ahora usamos Link en lugar de botón */}
+      <Link to="/productos/nuevo" className="admin-btn">
+        ➕ Agregar producto
+      </Link>
 
       <hr />
 
-     
       {loading ? (
         <p>Cargando productos...</p>
       ) : products.length === 0 ? (
@@ -55,8 +34,20 @@ export default function ProductsCrud() {
           {products.map((p) => (
             <li key={p._id}>
               {p.name} — ${p.price}
-              <button onClick={() => setEditingProduct(p)}>Editar</button>
-              <button onClick={() => deleteProduct(p._id)}>Eliminar</button>
+
+              <Link
+                to={`/productos/editar/${p._id}`}
+                className="admin-btn"
+              >
+                Editar
+              </Link>
+
+              <button
+                className="admin-btn-delete"
+                onClick={() => deleteProduct(p._id)}
+              >
+                Eliminar
+              </button>
             </li>
           ))}
         </ul>
