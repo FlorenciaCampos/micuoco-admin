@@ -1,89 +1,66 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useLoginUser from "../hooks/useLoginUser";
 
-
-export default function Login({onLoginSuccess }){
-
-     // 1️⃣ Estado inicial del formulario
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
-
+export default function Login({ onLoginSuccess }) {
+  const [form, setForm] = useState({ email: "", password: "" });
+  const { loginUser } = useLoginUser();
   const navigate = useNavigate();
 
-
-  // 2️⃣ Función para actualizar los valores del form
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    try {
-      const response = await fetch("http://localhost:3000/api/user/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-  
-      const data = await response.json();
-  
-      if (!response.ok) {
-        throw new Error(data.message || "Error en el login");
-      }
-  
-      sessionStorage.setItem("token", data.token);
-  
+
+    const token = await loginUser(form);
+
+    if (token) {
+      // Guardamos el token en el navegador (para mantener la sesión)
+      sessionStorage.setItem("token", token);
+
+      // Avisamos al App.jsx que ya tenemos token
       if (onLoginSuccess) {
-        onLoginSuccess(data.token);
+        onLoginSuccess(token);
       }
-  
-      // 👇 Redirige a la página de gestión de productos
-      navigate("/productos");
-    } catch (error) {
-      console.error("Error al iniciar sesión:", error.message);
+
+      // Redirigimos después de iniciar sesión
+      navigate("/productos"); // si querés ir a otra ruta, cambialo aquí
     }
   };
-  
 
+  return (
+    <main className="login-container">
+      <h1>Iniciar sesión</h1>
 
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Email</label>
+          <input
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={handleChange}
+            placeholder="tu@email.com"
+            autoComplete="email"
+          />
+        </div>
 
-    return(
-        <main>
-            <div className="login-container">
-                <h1>Iniciar sesion</h1>
+        <div>
+          <label>Contraseña</label>
+          <input
+            name="password"
+            type="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="••••••"
+            autoComplete="current-password"
+          />
+        </div>
 
-                <form  onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor="email">Email</label>
-                        <input id="email" name="email" 
-                            type="email" placeholder="tu@email.com"  
-                            value={form.email}
-                            onChange={handleChange}/>
-                    </div>
-
-                    <div>
-                        <label htmlFor="password">Contraseña</label>
-                        <input id="password" name="password" 
-                               type="password" placeholder="••••••••" 
-                               value={form.password}
-                               onChange={handleChange}/>
-                    </div>
-                    <button type="submit">Ingresar</button>
-
-                </form>
-               
-
-            </div>
-        </main>
-
-    )
+        <button type="submit">Ingresar</button>
+      </form>
+    </main>
+  );
 }
