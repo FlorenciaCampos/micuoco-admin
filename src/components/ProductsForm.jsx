@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 
 export default function ProductForm({ onSubmit, initialData }) {
@@ -7,10 +6,16 @@ export default function ProductForm({ onSubmit, initialData }) {
     price: "",
   });
 
-  
+  // ✅ Verifica si es edición o creación
+  const isEditing = initialData && initialData._id;
+
   useEffect(() => {
     if (initialData) {
-      setForm(initialData);
+      // ✅ Solo cargamos los campos editables, no todo el objeto
+      setForm({
+        name: initialData.name || "",
+        price: initialData.price || "",
+      });
     }
   }, [initialData]);
 
@@ -23,12 +28,13 @@ export default function ProductForm({ onSubmit, initialData }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(form); 
+    onSubmit(form); // se envían los datos del form
+    setForm({ name: "", price: "" }); // limpia formulario luego de crear/editar
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h3>{initialData ? "Editar producto" : "Agregar producto"}</h3>
+      <h3>{isEditing ? "Editar producto" : "Agregar producto"}</h3>
 
       <div>
         <label>Nombre</label>
@@ -52,7 +58,7 @@ export default function ProductForm({ onSubmit, initialData }) {
       </div>
 
       <button type="submit">
-        {initialData ? "Guardar cambios" : "Crear producto"}
+        {isEditing ? "Guardar cambios" : "Crear producto"}
       </button>
     </form>
   );
