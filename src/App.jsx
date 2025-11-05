@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
+import AddProduct from "./pages/AddProduct.jsx";
 
 import Login from "./pages/Login.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
@@ -40,6 +41,15 @@ function App() {
         element={
           <ProtectedRoute>
             <ProductsCrud />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/productos/nuevo"
+        element={
+          <ProtectedRoute>
+            <AddProduct />
           </ProtectedRoute>
         }
       />

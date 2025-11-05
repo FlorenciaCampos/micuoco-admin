@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import useProduct from "../hooks/useProduct";
 import ProductForm from "../components/ProductsForm";
+import { Link } from "react-router-dom";
+
 
 export default function ProductsCrud() {
   const {
@@ -21,8 +23,10 @@ export default function ProductsCrud() {
   return (
     <main>
       <h1>Gestión de productos</h1>
-
-      <button onClick={() => setEditingProduct(null)}>➕ Agregar producto</button>
+     
+<Link to="/productos/nuevo">
+  <button onClick={() => setEditingProduct(null)}>➕ Agregar producto</button>
+</Link>
 
 
      
