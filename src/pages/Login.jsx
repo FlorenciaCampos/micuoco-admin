@@ -17,16 +17,16 @@ export default function Login({ onLoginSuccess }) {
     const token = await loginUser(form);
 
     if (token) {
-      // Guardamos el token en el navegador (para mantener la sesión)
+      
       sessionStorage.setItem("token", token);
 
-      // Avisamos al App.jsx que ya tenemos token
+     
       if (onLoginSuccess) {
         onLoginSuccess(token);
       }
 
-      // Redirigimos después de iniciar sesión
-      navigate("/productos"); // si querés ir a otra ruta, cambialo aquí
+   
+      navigate("/productos"); 
     }
   };
 

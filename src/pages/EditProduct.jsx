@@ -1,4 +1,4 @@
-// src/pages/EditProduct.jsx
+
 import { Link, useParams } from "react-router-dom";
 import ProductForm from "../components/ProductsForm";
 import useProduct from "../hooks/useProduct";
