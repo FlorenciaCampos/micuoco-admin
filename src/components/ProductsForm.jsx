@@ -60,7 +60,7 @@ export default function ProductForm({ onSubmit, initialData }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="product-form" onSubmit={handleSubmit}> {/* ✅ clase aplicada */}
       <h3>{isEditing ? "Editar producto" : "Agregar producto"}</h3>
 
       <label>Nombre</label>
@@ -88,19 +88,9 @@ export default function ProductForm({ onSubmit, initialData }) {
         onChange={handleChange}
       />
 
-      {/* ✅ Mostramos preview si existe */}
+      {/* ✅ Preview sin CSS inline */}
       {preview && (
-        <img
-          src={preview}
-          alt="preview"
-          style={{
-            width: "150px",
-            height: "150px",
-            objectFit: "contain",
-            marginTop: "10px",
-            borderRadius: "10px",
-          }}
-        />
+        <img src={preview} alt="preview" className="preview-image" />
       )}
 
       <button type="submit">

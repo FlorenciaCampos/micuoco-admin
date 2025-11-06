@@ -1,19 +1,18 @@
 // src/pages/EditProduct.jsx
-
 import { Link, useParams } from "react-router-dom";
 import ProductForm from "../components/ProductsForm";
 import useProduct from "../hooks/useProduct";
 import { useEffect, useState } from "react";
 
 export default function EditProduct() {
-  const { id } = useParams();                       // ← capturamos el :id de la URL
+  const { id } = useParams();
   const { getProductById, updateProduct } = useProduct();
 
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
     const loadProduct = async () => {
-      const data = await getProductById(id);        // ← buscamos el producto en el backend
+      const data = await getProductById(id);
       setProduct(data);
     };
 
@@ -21,21 +20,22 @@ export default function EditProduct() {
   }, [id]);
 
   return (
-    <main>
-      <Link to="/productos">
-        <button>⬅ Volver</button>
-      </Link>
+    <main className="form-page-container">
+
+      <Link to="/productos" className="admin-btn-back">⬅ Volver</Link>
 
       <h1>Editar producto</h1>
 
-      {product ? (
-        <ProductForm
-          initialData={product}                   // ← le pasamos los datos al form
-          onSubmit={(data) => updateProduct(id, data)}
-        />
-      ) : (
-        <p>Cargando...</p>
-      )}
+      <div className="form-card">
+        {product ? (
+          <ProductForm
+            initialData={product}
+            onSubmit={(data) => updateProduct(id, data)}
+          />
+        ) : (
+          <p>Cargando...</p>
+        )}
+      </div>
     </main>
   );
 }

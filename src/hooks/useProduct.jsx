@@ -4,70 +4,83 @@ export default function useProduct() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Obtener productos desde el backend
+  const API_URL = "http://localhost:3000/api/product";
+
+  // ✅ Obtener todos los productos
   const fetchProducts = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3000/api/product/getProducts");
+      const response = await fetch(`${API_URL}/getProducts`);
       const data = await response.json();
       setProducts(data);
     } catch (error) {
-      console.error("Error al obtener productos:", error);
+      console.error("❌ Error al obtener productos:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ Crear producto (envía FormData con imagen)
-  const createProduct = async (productData) => {
+  // ✅ Obtener un producto por ID (para precargar el formulario de edición)
+  const getProductById = async (id) => {
     try {
-      await fetch("http://localhost:3000/api/product/create", {
-        method: "POST",
-        body: productData, // 👈 FormData (NO JSON.stringify ni headers)
-      });
-
-      fetchProducts(); // refresca lista luego de crear
+      const res = await fetch(`${API_URL}/getProducts/${id}`);
+      return await res.json();
     } catch (error) {
-      console.error("Error al crear producto:", error);
+      console.error("❌ Error al obtener producto por ID:", error);
     }
   };
 
-  // ✅ Editar producto (envía FormData con imagen opcional)
+  // ✅ Crear producto (envía FormData)
+  const createProduct = async (productData) => {
+    try {
+      await fetch(`${API_URL}/create`, {
+        method: "POST",
+        body: productData, // FormData
+      });
+
+      fetchProducts(); // refrescar lista luego de crear
+    } catch (error) {
+      console.error("❌ Error al crear producto:", error);
+    }
+  };
+
+  // ✅ Editar producto
   const updateProduct = async (id, updatedData) => {
     try {
       setLoading(true);
 
-      await fetch(`http://localhost:3000/api/product/update/${id}`, {
+      await fetch(`${API_URL}/update/${id}`, {
         method: "PUT",
-        body: updatedData, // 👈 FormData también (puede incluir imagen o no)
+        body: updatedData, // FormData
       });
 
-      fetchProducts(); // refresca lista
+      fetchProducts(); // refrescar lista
     } catch (error) {
-      console.error("Error al actualizar producto:", error);
+      console.error("❌ Error al actualizar producto:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ Eliminar un producto por ID
+  // ✅ Eliminar producto
   const deleteProduct = async (id) => {
     try {
-      await fetch(`http://localhost:3000/api/product/delete/${id}`, {
+      await fetch(`${API_URL}/delete/${id}`, {
         method: "DELETE",
       });
 
-      fetchProducts(); // vuelve a cargar la lista sin el eliminado
+      fetchProducts(); // refrescar lista
     } catch (error) {
       console.error("❌ Error al eliminar producto:", error);
     }
   };
 
-  // Exportamos todas las funciones necesarias al componente React
+  // ✅ Exportar funciones disponibles
   return {
     products,
     loading,
     fetchProducts,
+    getProductById,   // 👈 AHORA SÍ ESTÁ EXPORTADA
     createProduct,
     updateProduct,
     deleteProduct,

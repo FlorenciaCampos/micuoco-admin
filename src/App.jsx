@@ -1,15 +1,17 @@
+// src/App.jsx
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
 
 import Login from "./pages/Login.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import ProductsCrud from "./pages/ProductsCrud.jsx";
-import AddProduct from "./pages/AddProduct.jsx"; // mismo formulario para crear y editar
+import AddProduct from "./pages/AddProduct.jsx";
+import EditProduct from "./pages/EditProduct.jsx";   // ✅ IMPORTANTE
 
 function App() {
   const [token, setToken] = useState(sessionStorage.getItem("token"));
 
-  // Middleware de protección de rutas
+  // ✅ Middleware de protección de rutas
   const ProtectedRoute = ({ children }) => {
     if (!token) {
       return <Navigate to="/login" replace />;
@@ -55,12 +57,12 @@ function App() {
         }
       />
 
-      {/* ✅ EDITAR PRODUCTO - <---- ESTA TE FALTABA */}
+      {/* ✅ EDITAR PRODUCTO */}
       <Route
         path="/productos/editar/:id"
         element={
           <ProtectedRoute>
-            <AddProduct />
+            <EditProduct />     {/* <---- AQUÍ ESTABA EL ERROR */}
           </ProtectedRoute>
         }
       />
