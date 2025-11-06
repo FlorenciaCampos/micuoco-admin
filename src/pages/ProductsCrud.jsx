@@ -3,12 +3,7 @@ import useProduct from "../hooks/useProduct";
 import { Link } from "react-router-dom";
 
 export default function ProductsCrud() {
-  const {
-    products,
-    loading,
-    fetchProducts,
-    deleteProduct,
-  } = useProduct();
+  const { products, loading, fetchProducts, deleteProduct } = useProduct();
 
   useEffect(() => {
     fetchProducts();
@@ -18,7 +13,6 @@ export default function ProductsCrud() {
     <main className="admin-wrapper">
       <h1>Gestión de productos</h1>
 
-      {/* ✅ Ahora usamos Link en lugar de botón */}
       <Link to="/productos/nuevo" className="admin-btn">
         ➕ Agregar producto
       </Link>
@@ -30,27 +24,33 @@ export default function ProductsCrud() {
       ) : products.length === 0 ? (
         <p>No hay productos cargados</p>
       ) : (
-        <ul>
+        <div className="product-grid">
           {products.map((p) => (
-            <li key={p._id}>
-              {p.name} — ${p.price}
+            <div className="product-card" key={p._id}>
+              <img
+                src={`http://localhost:3000/uploads/products/${p.image}`}
+                alt={p.name}
+                className="product-img"
+              />
 
-              <Link
-                to={`/productos/editar/${p._id}`}
-                className="admin-btn"
-              >
-                Editar
-              </Link>
+              <h3>{p.name}</h3>
+              <p className="price">${p.price}</p>
 
-              <button
-                className="admin-btn-delete"
-                onClick={() => deleteProduct(p._id)}
-              >
-                Eliminar
-              </button>
-            </li>
+              <div className="product-actions">
+                <Link to={`/productos/editar/${p._id}`} className="admin-btn">
+                  Editar
+                </Link>
+
+                <button
+                  className="admin-btn-delete"
+                  onClick={() => deleteProduct(p._id)}
+                >
+                  Eliminar
+                </button>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </main>
   );

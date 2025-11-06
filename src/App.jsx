@@ -1,15 +1,15 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
-import AddProduct from "./pages/AddProduct.jsx";
 
 import Login from "./pages/Login.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import ProductsCrud from "./pages/ProductsCrud.jsx";
+import AddProduct from "./pages/AddProduct.jsx"; // mismo formulario para crear y editar
 
 function App() {
   const [token, setToken] = useState(sessionStorage.getItem("token"));
 
-  // Si el usuario no está logueado, lo mandamos al login
+  // Middleware de protección de rutas
   const ProtectedRoute = ({ children }) => {
     if (!token) {
       return <Navigate to="/login" replace />;
@@ -19,13 +19,13 @@ function App() {
 
   return (
     <Routes>
-      {/* LOGIN */}
+      {/* ✅ LOGIN */}
       <Route
         path="/login"
         element={<Login onLoginSuccess={(newToken) => setToken(newToken)} />}
       />
 
-      {/* DASHBOARD */}
+      {/* ✅ DASHBOARD */}
       <Route
         path="/"
         element={
@@ -35,7 +35,7 @@ function App() {
         }
       />
 
-      {/* CRUD DE PRODUCTOS */}
+      {/* ✅ LISTA DE PRODUCTOS */}
       <Route
         path="/productos"
         element={
@@ -45,6 +45,7 @@ function App() {
         }
       />
 
+      {/* ✅ CREAR PRODUCTO */}
       <Route
         path="/productos/nuevo"
         element={
@@ -54,7 +55,17 @@ function App() {
         }
       />
 
-      {/* SI NO EXISTE LA RUTA */}
+      {/* ✅ EDITAR PRODUCTO - <---- ESTA TE FALTABA */}
+      <Route
+        path="/productos/editar/:id"
+        element={
+          <ProtectedRoute>
+            <AddProduct />
+          </ProtectedRoute>
+        }
+      />
+
+      {/* ✅ SI NO EXISTE LA RUTA */}
       <Route path="*" element={<h2>Página no encontrada</h2>} />
     </Routes>
   );

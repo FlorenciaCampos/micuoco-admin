@@ -1,43 +1,112 @@
 /* 🎀 Estilos generales */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: '
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Times New Roman", serif;
 }
 
-/* =============================
-   ADMIN PANEL (Mi Cuoco)
-============================== */
+/* Título */
+.admin-wrapper h1 {
+  color: #bc4b51;
+  margin-bottom: 25px;
+}
 
-.admin-wrapper {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
+/* Botón agregar */
+.admin-btn {
+  padding: 10px 18px;
+  border-radius: 50px;
+  border: 1px solid #bc4b51;
+  background-color: #fff;
+  color: #bc4b51;
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.admin-btn:hover {
+  background-color: #bc4b51;
+  color: #fff;
+}
+
+/* ✅ NUEVO DISEÑO (basado en tu front original) */
+
+.product-grid {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+}
+
+.product-card {
+  width: 300px;
+  padding: 16px;
+  background: #ffffff;
+  border-radius: 10px;
+  text-align: center;
+  transition: 0.4s ease;
+}
+
+.product-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover; /* igual que tu proyecto original */
+  border-radius: 6px;
+  transition: transform 0.3s ease;
+}
+
+/* Hover zoom como en tu sitio */
+.product-card:hover .product-img {
+  transform: scale(1.08);
+}
+
+/* Nombre producto */
+.product-card h3 {
+  margin-top: 12px;
+  font-size: 1rem;
+  color: #222;
+}
+
+/* Precio */
+.price {
+  margin-top: 5px;
+  font-weight: bold;
+  color: #bc4b51;
+  font-size: 1.1rem;
+}
+
+/* Botones */
+.product-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.admin-btn-delete {
+  padding: 8px 15px;
+  border-radius: 50px;
+  border: none;
+  background-color: #e63946;
+  color: white;
+  cursor: pointer;
+}
+
+.admin-btn-delete:hover {
+  background-color: #b81e28;
+}
+
+/* ✅ Responsive igual que tu versión original */
+
+@media (max-width: 1024px) {
+  .product-card {
+    width: 45%;
   }
-  
-  /* Titulos del panel */
-  .admin-wrapper h1,
-  .admin-wrapper h3 {
-    font-family: 'Times New Roman', serif;
-    color: #bc4b51; /* tono rojizo similar a tu paleta */
-    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .product-card {
+    width: 100%;
   }
-  
-  /* Botón general */
-  .admin-btn {
-    padding: 8px 15px;
-    border-radius: 8px;
-    border: 1px solid #bc4b51;
-    background-color: white;
-    color: #bc4b51;
-    cursor: pointer;
-    font-family: 'Times New Roman';
-    transition: 0.3s ease;
-  }
-  
-  .admin-btn:hover {
-    background-color: #bc4b51;
-    color: white;
-  }
-  
+}
